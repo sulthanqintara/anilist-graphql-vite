@@ -8,11 +8,14 @@ const GET_PERPAGE = gql`
         lastPage
         hasNextPage
       }
-      media {
+      media(isAdult: false) {
         id
         title {
           romaji
+          english
+          native
         }
+        description
         coverImage {
           large
         }
