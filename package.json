@@ -8,9 +8,7 @@
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "start": "npm run dev",
-    "compile": "graphql-codegen",
-    "watch": "graphql-codegen -w"
+    "start": "npm run dev"
   },
   "dependencies": {
     "@apollo/client": "^3.7.17",
