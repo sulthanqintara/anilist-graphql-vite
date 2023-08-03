@@ -27,7 +27,6 @@ const Header = () => {
   });
   const NavList: Nav[] = [
     { to: "/", name: "Home" },
-    { to: "detail", name: "Detail" },
     { to: "collection", name: "Collection" },
   ];
   return (
@@ -38,7 +37,7 @@ const Header = () => {
           style={({ isActive }) => {
             return {
               color: isActive ? "white" : "black",
-              textShadow: isActive ? "0px 0px 12px rgba(222, 222, 33, 0.5)" : "initial",
+              textShadow: isActive ? "0px 0px 16px rgba(222, 222, 33, 1)" : "initial",
             };
           }}
         >
