@@ -1,23 +1,23 @@
-import "./App.css";
-import { Routes, Route, NavLink } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import CollectionDetail from "./pages/CollectionList/Detail";
+import Detail from "./pages/Detail";
+import Header from "./components/layout/Header";
+import BodyLayout from "./components/layout/Body";
 
 function App() {
   return (
     <>
-      <nav>
-        <NavLink to="/">Home</NavLink>
-        <NavLink to="detail">Detail</NavLink>
-        <NavLink to="collection">Collection</NavLink>
-      </nav>
+      <Header />
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="collection">
-          <Route index element={<CollectionDetail />} />
-          <Route path="/detail" element={<CollectionDetail />} />
+        <Route element={<BodyLayout />}>
+          <Route index path="/" element={<Home />} />
+          <Route index path="/detail" element={<Detail />} />
+          <Route path="/collection">
+            <Route index element={<CollectionDetail />} />
+            <Route path="detail" element={<CollectionDetail />} />
+          </Route>
         </Route>
-        <Route path="" element={<Home />} />
       </Routes>
     </>
   );
