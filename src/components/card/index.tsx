@@ -29,8 +29,7 @@ const DescDiv = styled.div({
   textAlign: "center",
   [mq[0]]: { textAlign: "initial" },
   marginTop: "1rem",
-  overflowWrap: "break-word",
-  wordBreak: "break-all",
+  wordBreak: "break-word",
 });
 const CoverContain = styled.img({
   objectFit: "contain",
@@ -87,7 +86,7 @@ const Card: React.FC<Props> = ({ data, isCheckActive, onChange, position, checke
       <CoverContain src={data.coverImage.large} />
       <TextContent>
         <Title>{data.title.romaji || "-"}</Title>
-        <DescDiv>{data.description}</DescDiv>
+        <DescDiv>ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd{data.description}</DescDiv>
       </TextContent>
     </CardDiv>
   );
