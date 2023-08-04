@@ -1,7 +1,5 @@
 const CollectionDetail = () => {
-  return (
-    <div>CollectionDetail</div>
-  )
-}
+  return <div>CollectionDetail</div>;
+};
 
-export default CollectionDetail
+export default CollectionDetail;

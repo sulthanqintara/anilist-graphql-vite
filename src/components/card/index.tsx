@@ -1,11 +1,14 @@
 import React from "react";
-import { Anime } from "../../pages/Home";
 import styled from "@emotion/styled";
 import mq from "../../styles/mediaQuery";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   data: Anime;
   isCheckActive: boolean;
+  checked: boolean;
+  onChange: (position: number) => void;
+  position: number;
 }
 const CardDiv = styled.div({
   display: "flex",
@@ -30,6 +33,7 @@ const CoverContain = styled.img({
   objectFit: "contain",
   marginRight: "0.5rem",
   maxHeight: "20rem",
+  width: "20rem",
 });
 const TextContent = styled.div({
   display: "flex",
@@ -38,8 +42,13 @@ const TextContent = styled.div({
   alignItems: "center",
   [mq[0]]: { alignItems: "flex-start" },
 });
-const CheckBox = styled.input({ width: "1.5rem", height: "1.5rem" });
-const Label = styled.label({ position: "absolute", top: 0, left: 0 });
+const CheckBox = styled.input({
+  width: "1.5rem",
+  height: "1.5rem",
+  position: "absolute",
+  top: 0,
+  left: 0,
+});
 const Title = styled.div({
   display: "-webkit-box",
   WebkitLineClamp: 3,
@@ -50,14 +59,29 @@ const Title = styled.div({
   fontWeight: "600",
 });
 
-const Card: React.FC<Props> = ({ data, isCheckActive }) => {
+const Card: React.FC<Props> = ({ data, isCheckActive, onChange, position, checked }) => {
+  const navigate = useNavigate();
   return (
-    <div className="relative">
-      {isCheckActive && (
-        <Label>
-          <CheckBox type="checkbox" name="collection" id={data.id.toString()} />
-        </Label>
-      )}
+    <div
+      className="relative"
+      onClick={() => {
+        if (isCheckActive) return onChange(position);
+        if (!isCheckActive) {
+          navigate(`/detail/${data.id}`);
+        }
+      }}
+    >
+      <label>
+        {isCheckActive && (
+          <CheckBox
+            type="checkbox"
+            name="collection"
+            id={data.id.toString()}
+            onChange={() => onChange(position)}
+            checked={checked}
+          />
+        )}
+      </label>
       <CardDiv>
         <CoverContain src={data.coverImage.large} />
         <TextContent>

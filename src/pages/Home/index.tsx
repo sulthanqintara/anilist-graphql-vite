@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useAnimes } from "../../hooks/useAnimes";
+import useAnimes from "../../hooks/useAnimes";
 import Card from "../../components/card";
 import styled from "@emotion/styled";
 import mq from "../../styles/mediaQuery";
@@ -8,47 +8,24 @@ import CenteredDiv from "../../styles/CenteredDiv";
 import PuffLoader from "react-spinners/PuffLoader";
 import { ApolloError } from "@apollo/client";
 import FixedAddButton from "../../components/button/FixedAddButton";
-
-export interface Anime {
-  __typename: string;
-  id: number;
-  title: {
-    __typename: string;
-    romaji: string;
-    english: string;
-    native: string;
-  };
-  description: string;
-  coverImage: {
-    __typename: string;
-    large: string;
-  };
-}
-interface PageInfo {
-  __typename: string;
-  total: number;
-  currentPage: number;
-  lastPage: number;
-  hasNextPage: boolean;
-}
-interface Datas {
-  Page: {
-    media: Anime[];
-    pageInfo: PageInfo;
-  };
-}
+import Modal from "./Modal";
 
 const Home = () => {
   const [page, setPage] = useState<number>(1);
   const [totalPage, setTotalPage] = useState<number>(1);
   const [isCheckActive, setIsCheckActive] = useState<boolean>(false);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [selected, setSelected] = useState<boolean[]>([]);
   const {
     data,
     error,
     loading,
   }: { data: Datas; loading: boolean; error: ApolloError | undefined } = useAnimes(page);
   useEffect(() => {
-    if (data) setTotalPage(data.Page.pageInfo.lastPage);
+    if (data) {
+      setTotalPage(data.Page.pageInfo.lastPage);
+      setSelected(new Array(data.Page.media.length).fill(false));
+    }
   }, [data]);
 
   const animeData = data?.Page.media as Anime[];
@@ -60,6 +37,15 @@ const Home = () => {
     [mq[3]]: { gridTemplateColumns: "auto auto auto" },
   });
   const handlePageClick = (e: { selected: number }) => setPage(e.selected + 1);
+  const onOpenModal = () => {
+    if (!selected.find((element) => element))
+      return window.alert("Select at least one anime to be added to the collection");
+    setIsModalOpen(true);
+  };
+  const onCloseModal = () => setIsModalOpen(false);
+  const onChange = (position: number) =>
+    setSelected(selected.map((item, index) => (index === position ? !item : item)));
+
   return (
     <div>
       {loading && (
@@ -69,14 +55,26 @@ const Home = () => {
       )}
       {error && "Something went wrong :("}
       <CardContainer>
-        {animeData?.map((anime) => (
-          <Card data={anime} isCheckActive={isCheckActive} key={anime.id} />
+        {animeData?.map((anime, idx) => (
+          <Card
+            data={anime}
+            isCheckActive={isCheckActive}
+            key={anime.id}
+            onChange={onChange}
+            checked={selected[idx]}
+            position={idx}
+          />
         ))}
       </CardContainer>
       <CenteredDiv>
         <Pagination page={page} totalPage={totalPage} handlePageClick={handlePageClick} />
       </CenteredDiv>
-      <FixedAddButton setIsCheckActive={setIsCheckActive} isCheckActive={isCheckActive} />
+      <FixedAddButton
+        onOpenModal={onOpenModal}
+        setIsCheckActive={setIsCheckActive}
+        isCheckActive={isCheckActive}
+      />
+      <Modal isModalOpen={isModalOpen} onCloseModal={onCloseModal} />
     </div>
   );
 };

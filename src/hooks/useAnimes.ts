@@ -23,7 +23,8 @@ const GET_PERPAGE = gql`
     }
   }
 `;
-export const useAnimes = (page: number) => {
+const useAnimes = (page: number) => {
   const { loading, error, data } = useQuery(GET_PERPAGE, { variables: { page } });
   return { loading, error, data };
 };
+export default useAnimes

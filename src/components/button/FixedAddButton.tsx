@@ -28,13 +28,14 @@ const FixedDiv = styled.div({
 interface Props {
   setIsCheckActive: React.Dispatch<React.SetStateAction<boolean>>;
   isCheckActive: boolean;
+  onOpenModal: () => void;
 }
 
-const FixedAddButton: React.FC<Props> = ({ setIsCheckActive, isCheckActive }) => {
+const FixedAddButton: React.FC<Props> = ({ setIsCheckActive, isCheckActive, onOpenModal }) => {
   return (
     <FixedDiv>
       {isCheckActive && (
-        <CircleButton>
+        <CircleButton onClick={onOpenModal}>
           <div>Add to Collection</div>
         </CircleButton>
       )}

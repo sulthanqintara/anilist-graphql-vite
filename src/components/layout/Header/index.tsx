@@ -31,7 +31,7 @@ const Header = () => {
   ];
   return (
     <HeaderNav>
-      {NavList.map((nav) => (
+      {NavList.map((nav, idx) => (
         <HeaderNavLink
           to={nav.to}
           style={({ isActive }) => {
@@ -40,6 +40,7 @@ const Header = () => {
               textShadow: isActive ? "0px 0px 16px rgba(222, 222, 33, 1)" : "initial",
             };
           }}
+          key={idx}
         >
           {nav.name}
         </HeaderNavLink>
