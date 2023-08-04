@@ -86,7 +86,7 @@ const Card: React.FC<Props> = ({ data, isCheckActive, onChange, position, checke
       <CoverContain src={data.coverImage.large} />
       <TextContent>
         <Title>{data.title.romaji || "-"}</Title>
-        <DescDiv>ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd{data.description}</DescDiv>
+        <DescDiv>{data.description}</DescDiv>
       </TextContent>
     </CardDiv>
   );
