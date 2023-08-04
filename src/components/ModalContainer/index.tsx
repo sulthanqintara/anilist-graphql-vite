@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import Modal from "react-modal";
 
 interface Props {
   onCloseModal: () => void;
@@ -7,35 +7,35 @@ interface Props {
 }
 
 const ModalContainer: React.FC<Props> = ({ isModalOpen, children, onCloseModal }) => {
-  const dialogRef: React.MutableRefObject<HTMLDialogElement | null> = useRef(null);
-  useEffect(() => {
-    if (!dialogRef.current) return;
-    if (isModalOpen) {
-      return dialogRef.current.showModal();
-    }
-    dialogRef.current.close();
-  }, [isModalOpen]);
-
+  Modal.setAppElement("#root");
   return (
-    <dialog
-      ref={dialogRef}
-      onClick={(e) => {
-        if (dialogRef.current) {
-          const dialogDimensions = dialogRef.current.getBoundingClientRect();
-          if (
-            e.clientX < dialogDimensions.left ||
-            e.clientX > dialogDimensions.right ||
-            e.clientY < dialogDimensions.top ||
-            e.clientY > dialogDimensions.bottom
-          ) {
-            dialogRef?.current?.close();
-            onCloseModal();
-          }
-        }
+    <Modal
+      style={{
+        content: {
+          position: "initial",
+          border: "1px solid #ccc",
+          background: "#fff",
+          overflow: "auto",
+          WebkitOverflowScrolling: "touch",
+          borderRadius: "4px",
+          padding: "20px",
+          minWidth: "50vw",
+          maxHeight: "80vh",
+        },
+        overlay: {
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          inset: 0,
+          position: "fixed",
+          backgroundColor: "rgba(0, 0, 0, 0.5)",
+        },
       }}
+      isOpen={isModalOpen}
+      onRequestClose={onCloseModal}
     >
       {children}
-    </dialog>
+    </Modal>
   );
 };
 

@@ -1,22 +1,22 @@
 import React from "react";
 import styled from "@emotion/styled";
 import { IoClose, IoAdd } from "react-icons/io5";
+import { SubmitButton } from "../../pages/Home/styles";
 
-const CircleButton = styled.button(({ isRounded }: { isRounded?: boolean }) => ({
+const CircleButton = styled.button({
   backgroundColor: "slateblue",
-  width: isRounded ? "4rem" : "auto",
-  height: isRounded ? "4rem" : "auto",
-  borderRadius: isRounded ? "100%" : "4px",
+  width: "4rem",
+  height: "4rem",
+  borderRadius: "100%",
   color: "white",
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
   transitionDuration: "0.25s",
   ":active": { backgroundColor: "darkslateblue" },
-  fontSize: isRounded ? "2rem" : "init",
-  padding: isRounded ? "0" : "0.5rem 1rem",
+  fontSize: "2rem",
   fontWeight: "600",
-}));
+});
 const FixedDiv = styled.div({
   display: "flex",
   position: "fixed",
@@ -35,11 +35,11 @@ const FixedAddButton: React.FC<Props> = ({ setIsCheckActive, isCheckActive, onOp
   return (
     <FixedDiv>
       {isCheckActive && (
-        <CircleButton onClick={onOpenModal}>
+        <SubmitButton onClick={onOpenModal}>
           <div>Add to Collection</div>
-        </CircleButton>
+        </SubmitButton>
       )}
-      <CircleButton isRounded onClick={() => setIsCheckActive(!isCheckActive)}>
+      <CircleButton onClick={() => setIsCheckActive(!isCheckActive)}>
         {isCheckActive ? <IoClose /> : <IoAdd />}
       </CircleButton>
     </FixedDiv>

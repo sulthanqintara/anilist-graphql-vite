@@ -1,20 +1,17 @@
 interface Anime {
-  __typename: string;
   id: number;
   title: {
-    __typename: string;
     romaji: string;
     english: string;
     native: string;
   };
   description: string;
   coverImage: {
-    __typename: string;
     large: string;
+    medium: string;
   };
 }
 interface PageInfo {
-  __typename: string;
   total: number;
   currentPage: number;
   lastPage: number;

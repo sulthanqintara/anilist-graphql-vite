@@ -18,6 +18,7 @@ const GET_PERPAGE = gql`
         description
         coverImage {
           large
+          medium
         }
       }
     }

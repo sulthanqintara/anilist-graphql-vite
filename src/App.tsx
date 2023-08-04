@@ -4,6 +4,7 @@ import CollectionDetail from "./pages/CollectionList/Detail";
 import Detail from "./pages/Detail";
 import Header from "./components/layout/Header";
 import BodyLayout from "./components/layout/Body";
+import CollectionList from "./pages/CollectionList";
 
 function App() {
   return (
@@ -14,7 +15,7 @@ function App() {
           <Route index path="/" element={<Home />} />
           <Route index path="/detail/:id" element={<Detail />} />
           <Route path="/collection">
-            <Route index element={<CollectionDetail />} />
+            <Route index element={<CollectionList />} />
             <Route path="detail" element={<CollectionDetail />} />
           </Route>
         </Route>

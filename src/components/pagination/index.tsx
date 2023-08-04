@@ -1,37 +1,27 @@
-import React from "react";
-import ReactPaginate from "react-paginate";
-
+import styled from "@emotion/styled";
 interface Props {
-  page: number;
   totalPage: number;
-  handlePageClick: (e: { selected: number }) => void;
+  page: number;
+  onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
-const Pagination: React.FC<Props> = ({ page, totalPage, handlePageClick }) => {
+const PageSelect: React.FC<Props> = ({ totalPage, page, onChange }) => {
+  // Generate an array of page numbers from 1 to totalPage
+  const pages = Array.from({ length: totalPage }, (_, index) => index + 1);
+  const PageSelect = styled.select({
+    border: "1px solid black",
+    padding: "0.25rem",
+    borderRadius: "4px",
+  });
   return (
-    <ReactPaginate
-      containerClassName="flex items-center gap-2 mt-4"
-      nextLabel=">"
-      nextClassName="w-9 h-9 flex border rounded border-primary-700 text-primary-700 duration-200"
-      nextLinkClassName="flex-1 flex items-center justify-center text-center h-full"
-      previousLabel="<"
-      previousClassName="w-9 h-9 flex border rounded border-primary-700 text-primary-700 duration-200"
-      previousLinkClassName="flex-1 flex items-center justify-center text-center h-full"
-      disabledClassName="!text-newtral-500 !border-newtral-300"
-      marginPagesDisplayed={1}
-      pageClassName="w-9 h-9 flex text-newtral-500 hover:text-black"
-      pageLinkClassName="flex-1 flex items-center justify-center text-center h-full duration-200"
-      activeLinkClassName="text-black"
-      activeClassName="border rounded border-newtral-300"
-      breakLabel="..."
-      breakClassName=""
-      breakLinkClassName=""
-      pageRangeDisplayed={5}
-      pageCount={totalPage}
-      onPageChange={handlePageClick}
-      forcePage={page - 1}
-    />
+    <PageSelect value={page} onChange={onChange} className="border p-1">
+      {pages.map((page) => (
+        <option key={page} value={page}>
+          Page {page}
+        </option>
+      ))}
+    </PageSelect>
   );
 };
 
-export default Pagination;
+export default PageSelect;

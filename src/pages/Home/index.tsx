@@ -36,7 +36,9 @@ const Home = () => {
     [mq[2]]: { gridTemplateColumns: "auto auto" },
     [mq[3]]: { gridTemplateColumns: "auto auto auto" },
   });
-  const handlePageClick = (e: { selected: number }) => setPage(e.selected + 1);
+  const handlePageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setPage(Number(e.target.value));
+  };
   const onOpenModal = () => {
     if (!selected.find((element) => element))
       return window.alert("Select at least one anime to be added to the collection");
@@ -45,6 +47,13 @@ const Home = () => {
   const onCloseModal = () => setIsModalOpen(false);
   const onChange = (position: number) =>
     setSelected(selected.map((item, index) => (index === position ? !item : item)));
+  const selectedAnimeData = () => {
+    if (data) {
+      const trueData = animeData.filter((_, idx) => selected[idx]);
+      return trueData;
+    }
+    return [];
+  };
 
   return (
     <div>
@@ -66,15 +75,17 @@ const Home = () => {
           />
         ))}
       </CardContainer>
-      <CenteredDiv>
-        <Pagination page={page} totalPage={totalPage} handlePageClick={handlePageClick} />
-      </CenteredDiv>
+      <Pagination page={page} totalPage={totalPage} onChange={handlePageChange} />
       <FixedAddButton
         onOpenModal={onOpenModal}
         setIsCheckActive={setIsCheckActive}
         isCheckActive={isCheckActive}
       />
-      <Modal isModalOpen={isModalOpen} onCloseModal={onCloseModal} />
+      <Modal
+        isModalOpen={isModalOpen}
+        onCloseModal={onCloseModal}
+        selectedAnimeData={selectedAnimeData}
+      />
     </div>
   );
 };
