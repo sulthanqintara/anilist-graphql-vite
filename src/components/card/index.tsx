@@ -18,6 +18,7 @@ const CardDiv = styled.div({
   maxHeight: "50rem",
   flexDirection: "column",
   [mq[0]]: { flexDirection: "row", maxHeight: "20rem", alignItems: "flex-start" },
+  position: "relative",
 });
 const DescDiv = styled.div({
   display: "-webkit-box",
@@ -28,12 +29,14 @@ const DescDiv = styled.div({
   textAlign: "center",
   [mq[0]]: { textAlign: "initial" },
   marginTop: "1rem",
+  overflowWrap: "break-word",
+  wordBreak: "break-all",
 });
 const CoverContain = styled.img({
   objectFit: "contain",
   marginRight: "0.5rem",
   maxHeight: "20rem",
-  width: "20rem",
+  maxWidth: "20rem",
 });
 const TextContent = styled.div({
   display: "flex",
@@ -62,8 +65,7 @@ const Title = styled.div({
 const Card: React.FC<Props> = ({ data, isCheckActive, onChange, position, checked }) => {
   const navigate = useNavigate();
   return (
-    <div
-      className="relative"
+    <CardDiv
       onClick={() => {
         if (isCheckActive) return onChange(position);
         if (!isCheckActive) {
@@ -82,14 +84,15 @@ const Card: React.FC<Props> = ({ data, isCheckActive, onChange, position, checke
           />
         )}
       </label>
-      <CardDiv>
-        <CoverContain src={data.coverImage.large} />
-        <TextContent>
-          <Title>{data.title.romaji || "-"}</Title>
-          <DescDiv>{data.description}</DescDiv>
-        </TextContent>
-      </CardDiv>
-    </div>
+      <CoverContain src={data.coverImage.large} />
+      <TextContent>
+        <Title>{data.title.romaji || "-"}</Title>
+        <DescDiv>
+          dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
+          {data.description}
+        </DescDiv>
+      </TextContent>
+    </CardDiv>
   );
 };
 

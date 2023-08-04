@@ -31,10 +31,10 @@ const Home = () => {
   const animeData = data?.Page.media as Anime[];
   const CardContainer = styled.div({
     display: "grid",
-    gridTemplateColumns: "auto",
+    gridTemplateColumns: "1fr",
     gap: "1rem",
-    [mq[2]]: { gridTemplateColumns: "auto auto" },
-    [mq[3]]: { gridTemplateColumns: "auto auto auto" },
+    [mq[2]]: { gridTemplateColumns: "1fr 1fr" },
+    [mq[3]]: { gridTemplateColumns: "repeat(3, 1fr)" },
   });
   const handlePageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setPage(Number(e.target.value));
@@ -56,7 +56,7 @@ const Home = () => {
   };
 
   return (
-    <div>
+    <>
       {loading && (
         <CenteredDiv>
           <PuffLoader color="slateblue" />
@@ -86,7 +86,7 @@ const Home = () => {
         onCloseModal={onCloseModal}
         selectedAnimeData={selectedAnimeData}
       />
-    </div>
+    </>
   );
 };
 
