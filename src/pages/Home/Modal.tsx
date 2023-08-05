@@ -43,7 +43,7 @@ const Modal: React.FC<Props> = ({ onCloseModal, isModalOpen, selectedAnimeData }
       return window.alert("Collection can't be empty");
     }
     if (hasSpecialCharacters(newText)) {
-      return window.alert("Collection cannot contain special characters");
+      return window.alert("Collection name cannot contain special characters");
     }
     if (collections.find((e) => e.name === newText)) {
       return window.alert("Collection name must be unique");
@@ -100,7 +100,7 @@ const Modal: React.FC<Props> = ({ onCloseModal, isModalOpen, selectedAnimeData }
             <IoAdd size={32} />
           </CollectionButton>
           {!isAddNewClicked ? (
-            <CollectionTitle>Add new Collection</CollectionTitle>
+            <CollectionTitle>Add a Collection</CollectionTitle>
           ) : (
             <form onSubmit={onAddNewCollection}>
               <InputNewCollection onChange={onTextChange} type="text" autoFocus />

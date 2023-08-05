@@ -26,6 +26,7 @@ const GET_ANIME = gql`
       season
       coverImage {
         large
+        medium
       }
       genres
       averageScore

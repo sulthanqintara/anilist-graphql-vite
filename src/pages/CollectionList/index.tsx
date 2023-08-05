@@ -52,7 +52,7 @@ const CollectionList = () => {
     <>
       <CollectionHeader>
         <CollectionTitle>Collections</CollectionTitle>
-        <SubmitButton onClick={onNewModalOpen}>Add New Collection</SubmitButton>
+        <SubmitButton onClick={onNewModalOpen}>Add a Collection</SubmitButton>
       </CollectionHeader>
       <CardContainer>
         {collections.length
@@ -72,11 +72,15 @@ const CollectionList = () => {
                       )}
                     </div>
                     {collection.list.length ? <div>Anime list:</div> : "No data found"}
-                    {collection.list.map((anime) => (
-                      <React.Fragment key={anime.id}>
-                        <div>{anime.title.romaji}</div>
-                      </React.Fragment>
-                    ))}
+                    {collection.list.map((anime, idx) => {
+                      if (idx === 3) return "...";
+                      if (idx > 3) return null;
+                      return (
+                        <React.Fragment key={anime.id}>
+                          <div>{anime.title.romaji}</div>
+                        </React.Fragment>
+                      );
+                    })}
                     <CardButtonContainer>
                       <CardButton isDelete onClick={() => onDeleteModalOpen(idx)}>
                         <IoTrash size={24} />

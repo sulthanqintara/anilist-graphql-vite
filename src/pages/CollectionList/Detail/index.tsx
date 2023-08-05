@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { COLLECTIONS } from "..";
 import styled from "@emotion/styled";
 import CenteredDiv from "../../../styles/CenteredDiv";
-import { CardContainer, SubmitButton } from "../../Home/styles";
+import { CardContainer, DeleteButtonContainer, SubmitButton } from "../../Home/styles";
 import { CardDiv, CoverContain, DescDiv, TextContent } from "../../../components/card/components";
 import { IoTrash } from "react-icons/io5";
 import DeleteModal from "./DeleteModal";
@@ -43,7 +43,7 @@ const CollectionDetail = () => {
     <>
       <CollectionHeader>
         <CollectionTitle>{collection?.name}</CollectionTitle>
-        <SubmitButton onClick={onEditModalOpen}>Edit Collection</SubmitButton>
+        <SubmitButton onClick={onEditModalOpen}>Edit</SubmitButton>
       </CollectionHeader>
       <CenteredDiv>
         <CardContainer>
@@ -53,17 +53,19 @@ const CollectionDetail = () => {
               <TextContent>
                 <Title>{data.title.romaji || "-"}</Title>
                 <DescDiv>{data.description}</DescDiv>
-                <SubmitButton
-                  isDelete
-                  className="mt-auto ml-auto"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onDeleteModalOpen();
-                    setPosition(idx);
-                  }}
-                >
-                  <IoTrash size={24} />
-                </SubmitButton>
+                <DeleteButtonContainer>
+                  <SubmitButton
+                    isDelete
+                    className="mt-auto ml-auto"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onDeleteModalOpen();
+                      setPosition(idx);
+                    }}
+                  >
+                    <IoTrash size={24} />
+                  </SubmitButton>
+                </DeleteButtonContainer>
               </TextContent>
             </CardDiv>
           ))}

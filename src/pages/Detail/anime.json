@@ -1,0 +1,33 @@
+{
+  "id": 15,
+  "title": {
+    "romaji": "",
+    "native": "",
+    "english": ""
+  },
+  "episodes": 0,
+  "duration": 0,
+  "description": "",
+  "type": "",
+  "format": "",
+  "startDate": {
+    "year": 0,
+    "month": 0,
+    "day": 0
+  },
+  "endDate": {
+    "year": 0,
+    "month": 0,
+    "day": 0
+  },
+  "season": "",
+  "coverImage": {
+    "large": "",
+    "medium": ""
+  },
+  "genres": [],
+  "averageScore": 0,
+  "characters": {
+    "nodes": []
+  }
+}

@@ -74,10 +74,19 @@ export const SubmitButton = styled.button(({ isDelete }: { isDelete?: boolean })
   padding: "8px 12px",
   borderRadius: "4px",
 }));
+export const DeleteButtonContainer = styled.div({
+  marginTop: 0,
+  marginLeft: 0,
+  position: "absolute",
+  top: 0,
+  right: 0,
+  [mq[0]]: { marginTop: "auto", marginLeft: "auto", position: "inherit" },
+});
 export const CardContainer = styled.div({
   display: "grid",
   gridTemplateColumns: "1fr",
   gap: "1rem",
   [mq[2]]: { gridTemplateColumns: "1fr 1fr" },
   [mq[3]]: { gridTemplateColumns: "repeat(3, 1fr)" },
+  height: "100%",
 });

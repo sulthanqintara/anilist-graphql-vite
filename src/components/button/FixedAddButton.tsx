@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "@emotion/styled";
 import { IoClose, IoAdd } from "react-icons/io5";
-import { SubmitButton } from "../../pages/Home/styles";
+import AddToCollection from "./AddToCollection";
 
 const CircleButton = styled.button({
   backgroundColor: "slateblue",
@@ -17,7 +17,7 @@ const CircleButton = styled.button({
   fontSize: "2rem",
   fontWeight: "600",
 });
-const FixedDiv = styled.div({
+export const FixedDiv = styled.div({
   display: "flex",
   position: "fixed",
   bottom: "2rem",
@@ -34,11 +34,7 @@ interface Props {
 const FixedAddButton: React.FC<Props> = ({ setIsCheckActive, isCheckActive, onOpenModal }) => {
   return (
     <FixedDiv>
-      {isCheckActive && (
-        <SubmitButton onClick={onOpenModal}>
-          <div>Add to Collection</div>
-        </SubmitButton>
-      )}
+      {isCheckActive && <AddToCollection onOpenModal={onOpenModal} />}
       <CircleButton onClick={() => setIsCheckActive(!isCheckActive)}>
         {isCheckActive ? <IoClose /> : <IoAdd />}
       </CircleButton>
