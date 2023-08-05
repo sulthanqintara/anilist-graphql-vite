@@ -48,7 +48,6 @@ const CollectionList = () => {
   useEffect(() => {
     if (collectionsString) setCollections(JSON.parse(collectionsString || "[]"));
   }, [collectionsString]);
-  console.log(collections, position);
   return (
     <>
       <CollectionHeader>
@@ -94,26 +93,26 @@ const CollectionList = () => {
               );
             })
           : "No Collection Found"}
-        <DeleteModal
-          isModalOpen={isDeleteModalOpen}
-          onCloseModal={onDeleteModalClose}
-          onCollectionDelete={onCollectionDelete}
-        />
-        <NewModal
-          collections={collections}
-          isModalOpen={isNewModalOpen}
-          setCollections={setCollections}
-          onCloseModal={onNewModalClose}
-        />
-        <NewModal
-          collections={collections}
-          isModalOpen={isEditModalOpen}
-          setCollections={setCollections}
-          onCloseModal={onEditModalClose}
-          position={position}
-          editModal
-        />
       </CardContainer>
+      <DeleteModal
+        isModalOpen={isDeleteModalOpen}
+        onCloseModal={onDeleteModalClose}
+        onCollectionDelete={onCollectionDelete}
+      />
+      <NewModal
+        collections={collections}
+        isModalOpen={isNewModalOpen}
+        setCollections={setCollections}
+        onCloseModal={onNewModalClose}
+      />
+      <NewModal
+        collections={collections}
+        isModalOpen={isEditModalOpen}
+        setCollections={setCollections}
+        onCloseModal={onEditModalClose}
+        position={position}
+        editModal
+      />
     </>
   );
 };

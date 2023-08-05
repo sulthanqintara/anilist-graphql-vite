@@ -1,9 +1,9 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import ModalContainer from "../../components/ModalContainer";
 import styled from "@emotion/styled";
 import { InputNewCollection, SubmitButton, SubmitContainer } from "../Home/styles";
-import { useState } from "react";
 import { COLLECTIONS } from ".";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   onCloseModal: () => void;
@@ -12,6 +12,7 @@ interface Props {
   collections: Collection[];
   editModal?: boolean;
   position?: number;
+  isDetail?: boolean;
 }
 
 const NewModal: React.FC<Props> = ({
@@ -21,7 +22,9 @@ const NewModal: React.FC<Props> = ({
   collections,
   editModal,
   position,
+  isDetail,
 }) => {
+  const navigate = useNavigate();
   const [newInput, setNewInput] = useState<string>("");
   const Title = styled.h1({
     fontSize: "1.5rem",
@@ -47,6 +50,9 @@ const NewModal: React.FC<Props> = ({
     }
     localStorage.setItem(COLLECTIONS, JSON.stringify(arrSubmit));
     setCollections(arrSubmit);
+    if (isDetail) {
+      navigate(`/collection/${newInput}`)
+    }
     onCloseModal();
   };
   const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => setNewInput(e.target.value);
