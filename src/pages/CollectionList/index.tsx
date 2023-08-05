@@ -22,18 +22,25 @@ const CollectionList = () => {
   const [collections, setCollections] = useState<Collection[]>([]);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
   const [isNewModalOpen, setIsNewModalOpen] = useState<boolean>(false);
-  const [deletePosition, setDeletePosition] = useState<number>(0);
-  const onDeleteModalOpen = (position: number) => {
+  const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
+  const [position, setPosition] = useState<number>(0);
+  const onDeleteModalOpen = (idx: number) => {
     setIsDeleteModalOpen(true);
-    setDeletePosition(position);
+    setPosition(idx);
   };
   const onDeleteModalClose = () => setIsDeleteModalOpen(false);
+  const onEditModalClose = () => setIsEditModalOpen(false);
+  const onEditModalOpen = (idx: number) => {
+    setIsEditModalOpen(true);
+    setPosition(idx);
+  };
   const onNewModalOpen = () => setIsNewModalOpen(true);
   const onNewModalClose = () => setIsNewModalOpen(false);
 
   const onCollectionDelete = () => {
+    setPosition(0);
     const tempArr: Collection[] = [...collections];
-    tempArr.splice(deletePosition, 1);
+    tempArr.splice(position, 1);
     setCollections(tempArr);
     localStorage.setItem(COLLECTIONS, JSON.stringify(tempArr));
     onDeleteModalClose();
@@ -41,6 +48,7 @@ const CollectionList = () => {
   useEffect(() => {
     if (collectionsString) setCollections(JSON.parse(collectionsString || "[]"));
   }, [collectionsString]);
+  console.log(collections, position);
   return (
     <>
       <CollectionHeader>
@@ -74,14 +82,11 @@ const CollectionList = () => {
                       <CardButton isDelete onClick={() => onDeleteModalOpen(idx)}>
                         <IoTrash size={24} />
                       </CardButton>
-                      <CardButton>
+                      <CardButton onClick={() => onEditModalOpen(idx)}>
                         <IoPencil size={24} />
                       </CardButton>
                       <CardButton>
-                        <IoEye
-                          size={24}
-                          onClick={() => navigate(`${collection.name}`)}
-                        />
+                        <IoEye size={24} onClick={() => navigate(`${collection.name}`)} />
                       </CardButton>
                     </CardButtonContainer>
                   </CollectionCard>
@@ -99,6 +104,14 @@ const CollectionList = () => {
           isModalOpen={isNewModalOpen}
           setCollections={setCollections}
           onCloseModal={onNewModalClose}
+        />
+        <NewModal
+          collections={collections}
+          isModalOpen={isEditModalOpen}
+          setCollections={setCollections}
+          onCloseModal={onEditModalClose}
+          position={position}
+          editModal
         />
       </CardContainer>
     </>

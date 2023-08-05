@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import mq from "../../styles/mediaQuery";
-export const CardDiv = styled.div(({ isPointer }: { isPointer?: boolean }) => ({
+export const CardDiv = styled.div({
   display: "flex",
   marginBottom: "1rem",
   fontFamily: "Roboto",
@@ -10,7 +10,7 @@ export const CardDiv = styled.div(({ isPointer }: { isPointer?: boolean }) => ({
   [mq[0]]: { flexDirection: "row", maxHeight: "20rem", alignItems: "flex-start" },
   position: "relative",
   cursor: "pointer",
-}));
+});
 export const DescDiv = styled.div({
   display: "-webkit-box",
   WebkitLineClamp: 7,
@@ -31,7 +31,7 @@ export const CoverContain = styled.img({
 export const TextContent = styled.div({
   display: "flex",
   flexDirection: "column",
-  maxHeight: "50rem",
+  height: "100%",
   alignItems: "center",
   [mq[0]]: { alignItems: "flex-start" },
 });
