@@ -19,6 +19,7 @@ const CardDiv = styled.div({
   flexDirection: "column",
   [mq[0]]: { flexDirection: "row", maxHeight: "20rem", alignItems: "flex-start" },
   position: "relative",
+  cursor: "pointer",
 });
 const DescDiv = styled.div({
   display: "-webkit-box",

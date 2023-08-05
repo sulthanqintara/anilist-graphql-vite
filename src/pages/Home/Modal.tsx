@@ -10,9 +10,11 @@ import {
   InputNewCollection,
   SubmitButton,
   FlexEnd,
+  CollectionButtonLayer,
 } from "./styles";
 import isEqual from "lodash.isequal";
 import { COLLECTIONS } from "../CollectionList";
+import isAlphaNumeric from "../../helper/isAlphaNumeric";
 interface Props {
   onCloseModal: () => void;
   isModalOpen: boolean;
@@ -40,15 +42,20 @@ const Modal: React.FC<Props> = ({ onCloseModal, isModalOpen, selectedAnimeData }
     if (!newText) {
       return window.alert("Collection can't be empty");
     }
+    if (!isAlphaNumeric(newText)) {
+      return window.alert("Collection can only contain alphanumeric")
+    }
     if (collections.find((e) => e.name === newText)) {
       return window.alert("Collection name must be unique");
     }
-    const collectionArr: Collection[] = [...collections, { name: newText }];
+    const collectionArr: Collection[] = [...collections, { name: newText, list: [] }];
     localStorage.setItem(COLLECTIONS, JSON.stringify(collectionArr));
     setNewText("");
     setIsAddNewClicked(false);
   };
-  const onTextChange = (e: React.ChangeEvent<HTMLInputElement>) => setNewText(e.target.value);
+  const onTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setNewText(e.target.value);
+  };
   useEffect(() => {
     if (collectionsString)
       setSelectedCollections(new Array(JSON.parse(collectionsString).length).fill(false));
@@ -66,19 +73,16 @@ const Modal: React.FC<Props> = ({ onCloseModal, isModalOpen, selectedAnimeData }
     return [];
   };
   const onSubmit = () => {
-    const arrSubmit: Collection[] = collections.map((collection, idx) => {
-      const list: CollectionAnimeDetail[] = collection.list ?? [];
+    const arrSubmit: Collection[] = [];
+    selectedCollections.map((isSelected, index) => {
+      if (!isSelected) return arrSubmit.push(collections[index]);
+      const { name, list } = collections[index];
+      const tempList: Anime[] = [...list];
       selectedAnimeData().map((anime) => {
-        if (!list.find((item) => item.id === anime.id)) list.push(anime);
+        if (!list?.find((item) => item.id === anime.id)) return tempList.push(anime);
       });
-      return selectedCollections[idx]
-        ? {
-            name: collection.name,
-            list,
-          }
-        : collection;
+      arrSubmit.push({ name, list: tempList });
     });
-    console.log(selectedAnimeData(), arrSubmit, collections);
     if (isEqual(arrSubmit, collections))
       return window.alert("Anime already existed on that collection");
     localStorage.setItem(COLLECTIONS, JSON.stringify(arrSubmit));
@@ -103,18 +107,29 @@ const Modal: React.FC<Props> = ({ onCloseModal, isModalOpen, selectedAnimeData }
           )}
         </CollectionDiv>
         {collections.length
-          ? collections.map((collection, idx) => (
-              <CollectionDiv key={collection.name}>
-                <CollectionButton onClick={() => onCollectionClicked(idx)}>
-                  {selectedCollections[idx] ? (
-                    <IoCheckmark size={32} />
-                  ) : (
-                    <IoAdd size={32} css={{ display: "flex" }} />
-                  )}
-                </CollectionButton>
-                <CollectionTitle>{collection.name}</CollectionTitle>
-              </CollectionDiv>
-            ))
+          ? collections.map((collection, idx) => {
+              const firstImage = collection.list.find((anime) => anime.coverImage.large);
+              return (
+                <CollectionDiv key={collection.name}>
+                  <CollectionButton
+                    image={firstImage?.coverImage.medium ?? ""}
+                    onClick={() => onCollectionClicked(idx)}
+                  >
+                    {selectedCollections[idx] ? (
+                      <>
+                        <IoCheckmark className="backdrop-saturate-200" size={32} />
+                        <CollectionButtonLayer />
+                      </>
+                    ) : (
+                      !firstImage?.coverImage.medium && (
+                        <IoAdd size={32} className="backdrop-saturate-200" />
+                      )
+                    )}
+                  </CollectionButton>
+                  <CollectionTitle>{collection.name}</CollectionTitle>
+                </CollectionDiv>
+              );
+            })
           : null}
       </CollectionListModal>
       <FlexEnd>

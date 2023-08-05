@@ -8,7 +8,7 @@ export const CollectionDiv = styled.div({
   alignItems: "center",
   justifyContent: "center",
 });
-export const CollectionButton = styled.button({
+export const CollectionButton = styled.button(({ image }: { image?: string }) => ({
   height: "4rem",
   width: "4rem",
   borderRadius: "4px",
@@ -17,6 +17,20 @@ export const CollectionButton = styled.button({
   justifyContent: "center",
   alignItems: "center",
   marginBottom: "4px",
+  backgroundImage: `url(${image})`,
+  backgroundSize: "contain",
+  backgroundRepeat: "no-repeat",
+  backgroundPosition: "center",
+  position: "relative",
+}));
+export const CollectionButtonLayer = styled.div({
+  position: "absolute",
+  inset: "0px",
+  backgroundColor: "rgba(106, 90, 205, 0.5)",
+  height: "4rem",
+  width: "4rem",
+  borderRadius: "4px",
+  zIndex: 2,
 });
 export const CollectionTitle = styled.div({
   display: "-webkit-box",
@@ -51,4 +65,11 @@ export const SubmitButton = styled.button({
   color: "white",
   padding: "8px 12px",
   borderRadius: "4px",
+});
+export const CardContainer = styled.div({
+  display: "grid",
+  gridTemplateColumns: "1fr",
+  gap: "1rem",
+  [mq[2]]: { gridTemplateColumns: "1fr 1fr" },
+  [mq[3]]: { gridTemplateColumns: "repeat(3, 1fr)" },
 });
