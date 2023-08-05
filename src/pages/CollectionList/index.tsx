@@ -60,7 +60,38 @@ const CollectionList = () => {
               const firstImage = collection.list.find((anime) => anime.coverImage.large);
               return (
                 <CenteredCard key={collection.name}>
-                  <CollectionCard key={collection.name}>
+                  <CollectionCard
+                    key={collection.name}
+                    onClick={() => navigate(`${collection.name}`)}
+                  >
+                    <CardButtonContainer>
+                      <CardButton
+                        isDelete
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onDeleteModalOpen(idx);
+                        }}
+                      >
+                        <IoTrash size={32} />
+                      </CardButton>
+                      <CardButton
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onEditModalOpen(idx);
+                        }}
+                      >
+                        <IoPencil size={32} />
+                      </CardButton>
+                      <CardButton
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          navigate(`${collection.name}`);
+                        }}
+                      >
+                        <IoEye size={32} />
+                      </CardButton>
+                    </CardButtonContainer>
+
                     <CollectionTitle>{collection.name}</CollectionTitle>
                     <div className="max-h-72 flex justify-center">
                       {firstImage ? (
@@ -81,17 +112,6 @@ const CollectionList = () => {
                         </React.Fragment>
                       );
                     })}
-                    <CardButtonContainer>
-                      <CardButton isDelete onClick={() => onDeleteModalOpen(idx)}>
-                        <IoTrash size={24} />
-                      </CardButton>
-                      <CardButton onClick={() => onEditModalOpen(idx)}>
-                        <IoPencil size={24} />
-                      </CardButton>
-                      <CardButton>
-                        <IoEye size={24} onClick={() => navigate(`${collection.name}`)} />
-                      </CardButton>
-                    </CardButtonContainer>
                   </CollectionCard>
                 </CenteredCard>
               );

@@ -19,7 +19,7 @@ export const CollectionCard = styled.div({
   display: "flex",
   textAlign: "center",
   flexDirection: "column",
-  height: "30rem",
+  height: "100%",
   wordBreak: "break-word",
   padding: "1rem",
   width: "100%",
@@ -44,10 +44,7 @@ export const CardButton = styled.button(({ isDelete }: { isDelete?: boolean }) =
   border: "1px solid black",
 }));
 export const CardButtonContainer = styled.div({
-  position: "absolute",
-  top: "1rem",
-  right: "1rem",
   display: "flex",
-  zIndex: "2",
   gap: "1rem",
+  justifyContent:'flex-end'
 });
