@@ -5,6 +5,7 @@ import Detail from "./pages/Detail";
 import Header from "./components/layout/Header";
 import BodyLayout from "./components/layout/Body";
 import CollectionList from "./pages/CollectionList";
+import NotFound from "./pages/NotFound";
 
 function App() {
   return (
@@ -12,12 +13,13 @@ function App() {
       <Header />
       <Routes>
         <Route element={<BodyLayout />}>
-          <Route index path="/" element={<Home />} />
+          <Route path="/" element={<Home />} />
           <Route index path="/detail/:id" element={<Detail />} />
           <Route path="/collection">
             <Route index element={<CollectionList />} />
             <Route path=":name" element={<CollectionDetail />} />
           </Route>
+          <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
     </>
