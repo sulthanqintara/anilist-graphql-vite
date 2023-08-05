@@ -1,72 +1,105 @@
-import React from "react";
-import { CardContainer } from "../Home/styles";
+import React, { useEffect, useState } from "react";
+import { CardContainer, SubmitButton } from "../Home/styles";
 export const COLLECTIONS = "collections";
-import styled from "@emotion/styled";
 import { useNavigate } from "react-router-dom";
-
-const CollectionTitle = styled.div({
-  fontSize: "1.5rem",
-  lineClamp: 2,
-  display: "-webkit-box",
-  WebkitLineClamp: 2,
-  WebkitBoxOrient: "vertical",
-  overflow: "hidden",
-});
-const CollectionCard = styled.div({
-  border: "1px solid black",
-  borderRadius: "1rem",
-  display: "flex",
-  textAlign: "center",
-  flexDirection: "column",
-  height: "30rem",
-  wordBreak: "break-word",
-  padding: "1rem",
-  width: "100%",
-});
-const CenteredCard = styled.button({
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-});
+import {
+  CenteredCard,
+  CollectionCard,
+  CollectionTitle,
+  CollectionHeader,
+  CoverImage,
+  NoImage,
+  CardButton,
+  CardButtonContainer,
+} from "./components";
+import DeleteModal from "./DeleteModal";
+import NewModal from "./NewModal";
+import { IoHelp, IoTrash, IoPencil, IoEye } from "react-icons/io5";
 
 const CollectionList = () => {
   const navigate = useNavigate();
   const collectionsString = localStorage.getItem(COLLECTIONS);
-  const collections: Collection[] = JSON.parse(collectionsString || "[]");
+  const [collections, setCollections] = useState<Collection[]>([]);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
+  const [isNewModalOpen, setIsNewModalOpen] = useState<boolean>(false);
+  const [deletePosition, setDeletePosition] = useState<number>(0);
+  const onDeleteModalOpen = (position: number) => {
+    setIsDeleteModalOpen(true);
+    setDeletePosition(position);
+  };
+  const onDeleteModalClose = () => setIsDeleteModalOpen(false);
+  const onNewModalOpen = () => setIsNewModalOpen(true);
+  const onNewModalClose = () => setIsNewModalOpen(false);
+
+  const onCollectionDelete = () => {
+    const tempArr: Collection[] = [...collections];
+    tempArr.splice(deletePosition, 1);
+    setCollections(tempArr);
+    localStorage.setItem(COLLECTIONS, JSON.stringify(tempArr));
+    onDeleteModalClose();
+  };
+  useEffect(() => {
+    if (collectionsString) setCollections(JSON.parse(collectionsString || "[]"));
+  }, [collectionsString]);
   return (
     <>
-      <CollectionTitle>Collections</CollectionTitle>
+      <CollectionHeader>
+        <CollectionTitle>Collections</CollectionTitle>
+        <SubmitButton onClick={onNewModalOpen}>Add New Collection</SubmitButton>
+      </CollectionHeader>
       <CardContainer>
         {collections.length
-          ? collections.map((collection) => {
+          ? collections.map((collection, idx) => {
               const firstImage = collection.list.find((anime) => anime.coverImage.large);
               return (
-                <CenteredCard
-                  key={collection.name}
-                  onClick={() => navigate(`collection/${collection.name}`)}
-                >
+                <CenteredCard key={collection.name}>
                   <CollectionCard key={collection.name}>
                     <CollectionTitle>{collection.name}</CollectionTitle>
                     <div className="max-h-72 flex justify-center">
-                      {firstImage && (
-                        <img
-                          className="max-h-full max-w-full"
-                          src={firstImage.coverImage.large}
-                          alt=""
-                        />
+                      {firstImage ? (
+                        <CoverImage src={firstImage.coverImage.large} alt="" />
+                      ) : (
+                        <NoImage>
+                          <IoHelp size={120} color="rgba(0,0,0,0.5)" />
+                        </NoImage>
                       )}
                     </div>
-                    {collection.list.length ? <div>Anime list:</div> : "No anime in collection"}
+                    {collection.list.length ? <div>Anime list:</div> : "No data found"}
                     {collection.list.map((anime) => (
                       <React.Fragment key={anime.id}>
                         <div>{anime.title.romaji}</div>
                       </React.Fragment>
                     ))}
+                    <CardButtonContainer>
+                      <CardButton isDelete onClick={() => onDeleteModalOpen(idx)}>
+                        <IoTrash size={24} />
+                      </CardButton>
+                      <CardButton>
+                        <IoPencil size={24} />
+                      </CardButton>
+                      <CardButton>
+                        <IoEye
+                          size={24}
+                          onClick={() => navigate(`${collection.name}`)}
+                        />
+                      </CardButton>
+                    </CardButtonContainer>
                   </CollectionCard>
                 </CenteredCard>
               );
             })
           : "No Collection Found"}
+        <DeleteModal
+          isModalOpen={isDeleteModalOpen}
+          onCloseModal={onDeleteModalClose}
+          onCollectionDelete={onCollectionDelete}
+        />
+        <NewModal
+          collections={collections}
+          isModalOpen={isNewModalOpen}
+          setCollections={setCollections}
+          onCloseModal={onNewModalClose}
+        />
       </CardContainer>
     </>
   );

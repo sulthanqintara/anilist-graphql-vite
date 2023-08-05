@@ -9,12 +9,12 @@ import {
   CollectionTitle,
   InputNewCollection,
   SubmitButton,
-  FlexEnd,
+  SubmitContainer,
   CollectionButtonLayer,
 } from "./styles";
 import isEqual from "lodash.isequal";
 import { COLLECTIONS } from "../CollectionList";
-import isAlphaNumeric from "../../helper/isAlphaNumeric";
+import hasSpecialCharacters from "../../helper/hasSpecialCharacters";
 interface Props {
   onCloseModal: () => void;
   isModalOpen: boolean;
@@ -42,8 +42,8 @@ const Modal: React.FC<Props> = ({ onCloseModal, isModalOpen, selectedAnimeData }
     if (!newText) {
       return window.alert("Collection can't be empty");
     }
-    if (!isAlphaNumeric(newText)) {
-      return window.alert("Collection can only contain alphanumeric")
+    if (hasSpecialCharacters(newText)) {
+      return window.alert("Collection cannot contain special characters");
     }
     if (collections.find((e) => e.name === newText)) {
       return window.alert("Collection name must be unique");
@@ -86,6 +86,7 @@ const Modal: React.FC<Props> = ({ onCloseModal, isModalOpen, selectedAnimeData }
     if (isEqual(arrSubmit, collections))
       return window.alert("Anime already existed on that collection");
     localStorage.setItem(COLLECTIONS, JSON.stringify(arrSubmit));
+    onCloseModal();
     window.alert("Anime has been added to the collection");
   };
 
@@ -132,11 +133,12 @@ const Modal: React.FC<Props> = ({ onCloseModal, isModalOpen, selectedAnimeData }
             })
           : null}
       </CollectionListModal>
-      <FlexEnd>
+      <SubmitContainer>
+        <SubmitButton isDelete onClick={onCloseModal}>Cancel</SubmitButton>
         <SubmitButton disabled={!selectedCollectionsData().length} onClick={onSubmit}>
           Add to Collection
         </SubmitButton>
-      </FlexEnd>
+      </SubmitContainer>
     </ModalContainer>
   );
 };

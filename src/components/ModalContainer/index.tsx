@@ -4,9 +4,10 @@ interface Props {
   onCloseModal: () => void;
   isModalOpen: boolean;
   children: React.ReactNode;
+  small?: boolean;
 }
 
-const ModalContainer: React.FC<Props> = ({ isModalOpen, children, onCloseModal }) => {
+const ModalContainer: React.FC<Props> = ({ isModalOpen, children, onCloseModal, small }) => {
   Modal.setAppElement("#root");
   return (
     <Modal
@@ -19,10 +20,12 @@ const ModalContainer: React.FC<Props> = ({ isModalOpen, children, onCloseModal }
           WebkitOverflowScrolling: "touch",
           borderRadius: "4px",
           padding: "20px",
-          minWidth: "50vw",
+          minWidth: small ? "20vw" : "50vw",
           maxHeight: "80vh",
+          maxWidth: "90vw",
         },
         overlay: {
+          zIndex: 1000,
           display: "flex",
           alignItems: "center",
           justifyContent: "center",

@@ -41,6 +41,7 @@ export const CollectionTitle = styled.div({
   width: "6rem",
   textAlign: "center",
   height: "3rem",
+  wordBreak: "break-word",
 });
 export const CollectionListModal = styled.div({
   display: "grid",
@@ -51,21 +52,28 @@ export const CollectionListModal = styled.div({
   [mq[2]]: { gridTemplateColumns: "auto auto auto auto auto" },
   gap: "1rem",
 });
-export const InputNewCollection = styled.input({
+export const InputNewCollection = styled.input(({ fullWidth }: { fullWidth?: boolean }) => ({
   border: "1px solid black",
   padding: "8px",
   borderRadius: "4px",
   height: "3rem",
-  width: "10rem",
-});
-export const FlexEnd = styled.div({ display: "flex", justifyContent: "flex-end" });
-export const SubmitButton = styled.button({
-  backgroundColor: "slateblue",
-  ":disabled": { backgroundColor: "rgba(106, 90, 205, 0.4)" },
+  width: fullWidth ? "100%" : "10rem",
+}));
+export const SubmitContainer = styled.div(({ centered }: { centered?: boolean }) => ({
+  display: "flex",
+  justifyContent: "center",
+  [mq[1]]: { justifyContent: centered ? "center" : "flex-end" },
+  marginTop: "1rem",
+  gap: "1rem",
+}));
+export const SubmitButton = styled.button(({ isDelete }: { isDelete?: boolean }) => ({
+  backgroundColor: isDelete ? "indianred" : "slateblue",
+  opacity: 1,
+  ":disabled": { opacity: 0.4 },
   color: "white",
   padding: "8px 12px",
   borderRadius: "4px",
-});
+}));
 export const CardContainer = styled.div({
   display: "grid",
   gridTemplateColumns: "1fr",

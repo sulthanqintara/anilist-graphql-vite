@@ -16,7 +16,7 @@ function App() {
           <Route index path="/detail/:id" element={<Detail />} />
           <Route path="/collection">
             <Route index element={<CollectionList />} />
-            <Route path="detail" element={<CollectionDetail />} />
+            <Route path=":name" element={<CollectionDetail />} />
           </Route>
         </Route>
       </Routes>
