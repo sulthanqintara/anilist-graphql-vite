@@ -28,8 +28,7 @@ const NewModal: React.FC<Props> = ({
     marginBottom: "1rem",
     textAlign: "center",
   });
-  const onAddCollection = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const onAddCollection = () => {
     if (collections.find((collection) => collection.name === newInput)) {
       return window.alert("Collection name already exist");
     }
@@ -38,16 +37,13 @@ const NewModal: React.FC<Props> = ({
     setCollections([...collections, objSubmit]);
     onCloseModal();
   };
-  const onEditCollection = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const onEditCollection = () => {
     const arrSubmit = [...collections];
     if (collections.find((collection) => collection.name === newInput)) {
       return window.alert("Collection name already exist");
     }
-    if (position) {
-      console.log(arrSubmit);
+    if (typeof position === "number") {
       arrSubmit[position] = { name: newInput, list: arrSubmit[position].list };
-      console.log(arrSubmit);
     }
     localStorage.setItem(COLLECTIONS, JSON.stringify(arrSubmit));
     setCollections(arrSubmit);
@@ -61,7 +57,13 @@ const NewModal: React.FC<Props> = ({
   return (
     <ModalContainer onCloseModal={onCloseModal} isModalOpen={isModalOpen} small>
       <Title>{editModal ? "Edit Collection Name" : "Add New Collection"}</Title>
-      <form onSubmit={editModal ? onEditCollection : onAddCollection}>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          if (editModal) return onEditCollection();
+          return onAddCollection();
+        }}
+      >
         <InputNewCollection
           type="text"
           fullWidth
@@ -74,7 +76,9 @@ const NewModal: React.FC<Props> = ({
         <SubmitButton isDelete onClick={onCloseModal}>
           Cancel
         </SubmitButton>
-        <SubmitButton type="submit">{editModal ? "Edit" : "Add"}</SubmitButton>
+        <SubmitButton type="button" onClick={editModal ? onEditCollection : onAddCollection}>
+          {editModal ? "Edit" : "Add"}
+        </SubmitButton>
       </SubmitContainer>
     </ModalContainer>
   );
