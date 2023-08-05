@@ -92,59 +92,63 @@ const Detail = () => {
 
   return (
     <AnimeContainer>
-      {loading && (
+      {loading ? (
         <CenteredDiv>
           <PuffLoader color="slateblue" />
         </CenteredDiv>
+      ) : (
+        <>
+          <AnimeTitle big>{title.english}</AnimeTitle>
+          <AnimeTitle>{title.romaji}</AnimeTitle>
+          <AnimeTitle>{title.native}</AnimeTitle>
+          <AnimeCover src={coverImage.large}></AnimeCover>
+          <ScoreContainer>
+            Rating : <IoStarOutline size={20} /> {averageScore / 10}
+          </ScoreContainer>
+          <div>
+            {type} {format} ({episodes} Episodes: {duration} minutes per episode)
+          </div>
+          <div>
+            Premiered on {season.charAt(0).toUpperCase()}
+            {season.slice(1).toLowerCase()} {startDate.year}
+          </div>
+          <div>
+            Aired on {new Date(startDate.year, startDate.month - 1, startDate.day).toDateString()}{" "}
+            to {new Date(endDate.year, endDate.month - 1, endDate.day).toDateString()}
+          </div>
+          <div>
+            Genres: {genres.map((genre, idx) => (genres.length !== idx + 1 ? genre + ", " : genre))}
+          </div>
+
+          <AnimeTitle big>On Collection</AnimeTitle>
+          <ul>
+            {collections.map((collection) => {
+              const existArr: Collection[] = [];
+              collection.list.find((anime) => anime.id === Number(id)) && existArr.push(collection);
+              return existArr.map((collection) => <li key={collection.name}>{collection.name}</li>);
+            })}
+          </ul>
+
+          <AnimeTitle big>Characters</AnimeTitle>
+          <CharacterContainer>
+            {characters.nodes.map((character) => {
+              console.log(character.id, characters);
+              return (
+                <CharacterCard src={character.image.large} key={character.id}>
+                  <CharacterName>{character.name.full}</CharacterName>
+                </CharacterCard>
+              );
+            })}
+          </CharacterContainer>
+          <AnimeTitle big>Description</AnimeTitle>
+          <div>{description}</div>
+          <FixedDiv>
+            <AddToCollection onOpenModal={onOpenModal} />
+          </FixedDiv>
+        </>
       )}
       {error && "Something went wrong :("}
-      <AnimeTitle big>{title.english}</AnimeTitle>
-      <AnimeTitle>{title.romaji}</AnimeTitle>
-      <AnimeTitle>{title.native}</AnimeTitle>
-      <AnimeCover src={coverImage.large}></AnimeCover>
-      <ScoreContainer>
-        Rating : <IoStarOutline size={20} /> {averageScore / 10}
-      </ScoreContainer>
-      <div>
-        {type} {format} ({episodes} Episodes: {duration} minutes per episode)
-      </div>
-      <div>
-        Premiered on {season.charAt(0).toUpperCase()}
-        {season.slice(1).toLowerCase()} {startDate.year}
-      </div>
-      <div>
-        Aired on {new Date(startDate.year, startDate.month - 1, startDate.day).toDateString()} to{" "}
-        {new Date(endDate.year, endDate.month - 1, endDate.day).toDateString()}
-      </div>
-      <div>
-        Genres: {genres.map((genre, idx) => (genres.length !== idx + 1 ? genre + ", " : genre))}
-      </div>
 
-      <AnimeTitle big>On Collection</AnimeTitle>
-      <ul>
-        {collections.map((collection) => {
-          const existArr: Collection[] = [];
-          collection.list.find((anime) => anime.id === Number(id)) && existArr.push(collection);
-          return existArr.map((collection) => <li key={collection.name}>{collection.name}</li>);
-        })}
-      </ul>
-
-      <AnimeTitle big>Characters</AnimeTitle>
-      <CharacterContainer>
-        {characters.nodes.map((character) => {
-          console.log(character.id, characters);
-          return (
-            <CharacterCard src={character.image.large} key={character.id}>
-              <CharacterName>{character.name.full}</CharacterName>
-            </CharacterCard>
-          );
-        })}
-      </CharacterContainer>
-      <AnimeTitle big>Description</AnimeTitle>
-      <div>{description}</div>
-      <FixedDiv>
-        <AddToCollection onOpenModal={onOpenModal} />
-      </FixedDiv>
       <Modal
         isModalOpen={isModalOpen}
         onCloseModal={onCloseModal}
