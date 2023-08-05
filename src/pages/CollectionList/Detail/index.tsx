@@ -81,7 +81,7 @@ const CollectionDetail = () => {
         isModalOpen={isEditModalOpen}
         setCollections={setCollections}
         onCloseModal={onEditModalClose}
-        position={position}
+        position={collectionIndex}
         editModal
         isDetail
       />
